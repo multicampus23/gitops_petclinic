@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-northeast-2:364488205925:certificate/cad9f0ff-aff0-49fc-8120-7923a9a71725
+spec:
+  selector:
+    app: eks-nginx
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 80
+  type: LoadBalancer
